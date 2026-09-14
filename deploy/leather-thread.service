@@ -1,0 +1,18 @@
+[Unit]
+Description=Leather & Thread owner workspace
+After=network.target
+
+[Service]
+Type=simple
+User=leather-thread
+Group=leather-thread
+WorkingDirectory=/opt/leather-thread
+EnvironmentFile=/etc/leather-thread.env
+ExecStart=/usr/bin/node server/index.mjs
+Restart=on-failure
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/leather-thread
+
+[Install]
+WantedBy=multi-user.target

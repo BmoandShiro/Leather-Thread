@@ -1,0 +1,8 @@
+'use client';
+import Link from 'next/link';
+import {useState} from 'react';
+import {ArrowUpRight} from 'lucide-react';
+import {RadioGroup,RadioGroupItem} from '@/components/ui/radio-group';
+import {Product,money} from '@/lib/catalog';
+export function ProductCard({product,index}:{product:Product;index:number}){const [colorId,setColorId]=useState(product.colors[0].id);const color=product.colors.find(c=>c.id===colorId)!;return <article className="product-card reveal" style={{animationDelay:`${index*.12}s`}}><Link className={`product-visual ${product.id}`} href={`/products/${product.id}?color=${color.id}`} aria-label={`Explore ${product.name} in ${color.name}`}><span className="product-index">0{index+1} / CONCEPT</span><img src={product.image} style={{filter:color.filter}} alt={`${product.name} in ${color.name} — illustrative concept`} loading="lazy"/><span className="product-arrow"><ArrowUpRight size={20}/></span></Link><div className="product-info"><h3><Link href={`/products/${product.id}?color=${color.id}`}>{product.name}</Link></h3><span>{money(product.price)}</span></div><div className="product-meta"><p>{product.subtitle}</p><span>Sample price</span></div><div className="swatch-row"><ColorPicker product={product} value={color.id} onChange={setColorId}/><span>{color.name}</span></div></article>}
+export function ColorPicker({product,value,onChange}:{product:Product;value:string;onChange:(id:string)=>void}){return <RadioGroup className="swatches" aria-label={`${product.name} color`} value={value} onValueChange={v=>onChange(String(v))}>{product.colors.map(c=><RadioGroupItem key={c.id} value={c.id} aria-label={c.name} title={c.name} className="swatch" style={{background:c.hex}}/>)}</RadioGroup>}
